@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import List 
 from bson import ObjectId
-from fastapi import HTTPException
+from fastapi import Depends, HTTPException 
 from pymongo.errors import PyMongoError
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from database.user_schema import UserCreate, UserDB, UserUpdate
+from database.user_schema import User, UserCreate, UserUpdate
+
+# Dependency to get MongoDB database
 
 async def get_all(db: AsyncIOMotorDatabase) -> List[dict]:
     try:
@@ -17,7 +19,7 @@ async def get_all(db: AsyncIOMotorDatabase) -> List[dict]:
     
 async def byname_users(mPageNo: int, mPageSize: int, mUserName: str, db: AsyncIOMotorDatabase) -> List[dict]: 
     try:
-        skip = (mPageNo - 1) * mPageSize
+        skip = (mPageNo - 1) * mPageSize 
         mlist = db["users"].find({"username": {"$regex": mUserName, "$options": "i"}})\
                         .skip(skip)\
                         .limit(mPageSize)
@@ -25,9 +27,9 @@ async def byname_users(mPageNo: int, mPageSize: int, mUserName: str, db: AsyncIO
     except PyMongoError as e:
         raise  # Let the global handler catch this 
 
-async def add_user(user: UserDB, db: AsyncIOMotorDatabase)-> UserCreate:
+async def add_user(user: UserCreate, db: AsyncIOMotorDatabase)-> User:
     try: 
-        # Check if email already exists
+        # Check if user already exists
         existing_user = await db["users"].find_one({"username": user.username})
         if existing_user:
             raise HTTPException(status_code=400, detail="User already exists")
@@ -39,7 +41,7 @@ async def add_user(user: UserDB, db: AsyncIOMotorDatabase)-> UserCreate:
         if created_user is None:
             raise HTTPException(status_code=500, detail="User created but could not be retrieved")
         
-        return created_user  # type: ignore
+        return created_user   
     except PyMongoError as e:
         raise  # Let the global handler catch this  
     
@@ -72,12 +74,25 @@ async def update_user(id: str, user: UserUpdate,  db: AsyncIOMotorDatabase):
     except PyMongoError as e:
         raise  # Let the global handler catch this 
 
+async def user_details(id: str, db: AsyncIOMotorDatabase)-> User:
+    try:
+        if not ObjectId.is_valid(id):
+            raise HTTPException(status_code=400, detail="Invalid user ID")         
+        _user = await db["users"].find_one({"id": ObjectId(id)})
+        if not _user:
+            raise HTTPException(status_code=400, detail="User not found") 
+        _user["id"] = str(_user["_id"])  # Convert ObjectId to string
+        del _user["_id"]  # Remove _id for schema  security 
+        return User(**_user)  
+    except PyMongoError as e:
+        raise  # Let the global handler catch this 
+
 async def delete_user(user_id: str,  db: AsyncIOMotorDatabase):
     try:
         if not ObjectId.is_valid(user_id):
             raise HTTPException(status_code=400, detail="Invalid user ID")
         
-        result = await db["users"].delete_one({"_id": ObjectId(user_id)})
+        result = await db["users"].delete_one({"id": ObjectId(user_id)})
         if result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="User not found")
         return {"message": "User deleted successfully"}

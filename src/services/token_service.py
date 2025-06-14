@@ -8,9 +8,7 @@ settings = Settings()
 
 
 def get_token(model: Token):
-    try:
-        # if not model.username or not model.token_module:
-        #     raise HTTPException(status_code=400, detail="User name/password is missing!!!")
+    try:        
         if(model.token_module == settings.TOKEN_MODULE and model.apikey == settings.API_KEY):
             return {"access_token": create_jwt_token(model.token_module, model.apikey)}
         else:

@@ -26,7 +26,7 @@ class User(BaseModel):
     email:str 
     password:str   
     roles: List[Role] 
-    tokens: str|None
+    active: bool
     createdAt: Optional[datetime] = None
     updatedAt: Optional[datetime] = None
     class Config:
@@ -35,9 +35,14 @@ class User(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         
-class UserCreate(User):    
-    updatedAt: Optional[datetime] = Field(default=None, alias="updatedAt")  # New field, None on 
-    pass
+class UserCreate(User):  
+    username:str
+    email:str 
+    password:str   
+    roles: List[Role] 
+    active: bool 
+    createdAt: Optional[datetime] = Field(default=None, alias="createdAt")  
+
 
 class UserDB(BaseModel):
     username:str 
@@ -48,6 +53,6 @@ class UserUpdate(BaseModel):
     email:str 
     password:str   
     roles: List[Role] 
-    tokens: str 
+    bool: str 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 

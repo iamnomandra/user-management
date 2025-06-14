@@ -7,3 +7,4 @@ jose
 pymongo 
 python-jose
 sqlalchemy
+jinja2
