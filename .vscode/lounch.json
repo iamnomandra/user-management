@@ -7,8 +7,7 @@
             "type": "debugpy",
             "request": "launch",
             "args": ["main:app", "--reload", "--port", "8000"],
-            "envFile": "${workspaceFolder}/.env",
-            "cwd": "G:\\React Tutorials\\user-management",
+            "envFile": "${workspaceFolder}/.env", 
             "jinja": true
         }
     ]
