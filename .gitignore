@@ -201,4 +201,4 @@ marimo/_lsp/
 __marimo__/
 .txt
 .vscode
-src/log/
+.envrc
