@@ -19,7 +19,7 @@ class PyObjectId(ObjectId):
             serialization=core_schema.to_string_ser_schema(),
         )
         
-# Users    
+# User    
 class User(BaseModel):   
     id: Optional[PyObjectId] = Field(default_factory=ObjectId, alias="id") # type: ignore
     username:str
@@ -38,10 +38,11 @@ class User(BaseModel):
 class UserCreate(User):    
     updatedAt: Optional[datetime] = Field(default=None, alias="updatedAt")  # New field, None on 
     pass
+
 class UserDB(BaseModel):
     username:str 
     pass
-            
+
 class UserUpdate(BaseModel):
     username:str
     email:str 
@@ -49,4 +50,4 @@ class UserUpdate(BaseModel):
     roles: List[Role] 
     tokens: str 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
- 
+
