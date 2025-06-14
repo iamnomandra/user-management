@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from pymongo.errors import PyMongoError
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
-from database.schemas import UserCreate, UserDB, UserUpdate
+from database.user_schema import UserCreate, UserDB, UserUpdate
 
 async def get_all(db: AsyncIOMotorDatabase) -> List[dict]:
     try:

@@ -1,10 +1,9 @@
 from pymongo.errors import PyMongoError
 from typing import List 
 from fastapi import APIRouter, Depends  
-
-from config.jwt_token import verify_token
+from tokens.jwt_config import verify_token
 from database.db import get_db  
-from database.schemas import User, UserDB, UserUpdate 
+from database.user_schema import User, UserDB, UserUpdate 
 from services import users_service 
 from exceptions import routes_error
 

@@ -1,9 +1,10 @@
 from fastapi import APIRouter
-from config.jwt_token import create_jwt_token
+from database.token_schema import Token
 from exceptions import routes_error
+from services import token_service
 
 router = APIRouter(prefix="/tokens", include_in_schema=True, route_class= routes_error.RouteErrorHandler)  
 
-@router.get("/token/{model}/{user}")
-def get_token(model:int, user: str):
-    return {"access_token": create_jwt_token(model, user)}
+@router.post("/get_token/")
+def get_token(model: Token):
+    return token_service.get_token(model) 

@@ -16,9 +16,11 @@ class Settings(BaseSettings): # type: ignore
     FRONTEND_HOST: list[str]= ["http://localhost.tiangolo.com", "https://localhost.tiangolo.com"]
     MONGO_STRING: str="mongodb://localhost:27017"
     DATABASE_NAME: str="fastapi-mongo-api"
-    SECRET_KEY: str=  "supersecretkey"
+    SECRET_KEY: str=  "UEK0sZLsQUTnY0a3drLvJTcneoOZSckXb8AyYRgpbbe6OqQ9i2yPxuu0g69aTvtUKsB7S1wZoKBy7iEpDHbY4A=="
     ALGORITHM: str= "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ACCESS_TOKEN_EXPIRE_DAYS: int = 10
+    POWERED_BY: str="iamomandra"
+    API_KEY:str ="ofxH3NSHE/Hs6uRkeMspPVqpnde5U8KhZ2FfCMZbuCE="
 
     class Config:
         env_file = ".env"

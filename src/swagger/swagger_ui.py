@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from fastapi.openapi.utils import get_openapi
-from config.jwt_token import create_jwt_token, verify_token
+from tokens.jwt_config import create_jwt_token, verify_token
 from swagger.swagger_meta_tags import DESC, TAGS_META
 
 from config.settings import Settings 

@@ -49,4 +49,4 @@ class UserUpdate(BaseModel):
     roles: List[Role] 
     tokens: str 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
-
+ 
