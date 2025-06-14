@@ -42,7 +42,7 @@ async def get_all(db: AsyncIOMotorDatabase) -> List[dict]:
 
 `git clone https://github.com/iamnomandra/user-management.git`
 
-`cd user_management` 
+`cd user-management` 
 
 ## Run the server  
 
