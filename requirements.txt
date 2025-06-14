@@ -1,0 +1,9 @@
+fastapi
+uvicorn 
+pydantic  
+motor 
+pydantic_settings
+jose
+pymongo 
+python-jose
+sqlalchemy
