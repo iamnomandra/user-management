@@ -4,7 +4,7 @@ from typing import List
 from fastapi import APIRouter, Depends 
 from tokens.jwt_config import verify_token
 from database.db import get_db  
-from database.user_schema import User, UserCreate, UserDB, UserUpdate 
+from database.user_schema import User, UserCreate, UserUpdate 
 from services import users_service 
 from exceptions import routes_error 
 
@@ -19,14 +19,14 @@ async def get_all(db: AsyncIOMotorDatabase = Depends(get_db)):
 async def by_name_users(mPageNo :int, mPageSize:int, mUserName:str, db = Depends(get_db)):
     return await users_service.byname_users(mPageNo , mPageSize, mUserName, db)
 
-@router.post("/add_user", response_model=UserCreate, dependencies=[Depends(verify_token)])
+@router.post("/add_user", response_model=User, dependencies=[Depends(verify_token)])
 async def create_user(user: UserCreate, db: AsyncIOMotorDatabase = Depends(get_db)):
     try:
         return await users_service.add_user(user, db) 
     except PyMongoError as e:
         raise     
 
-@router.put("/update_user/{id}", response_model=UserDB, dependencies=[Depends(verify_token)])
+@router.put("/update_user/{id}", response_model=UserUpdate, dependencies=[Depends(verify_token)])
 async def update_user(id: str, user: UserUpdate, db: AsyncIOMotorDatabase = Depends(get_db)):
     try:
         return await users_service.update_user(id, user, db) 

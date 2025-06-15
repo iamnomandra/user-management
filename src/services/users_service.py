@@ -27,7 +27,7 @@ async def byname_users(mPageNo: int, mPageSize: int, mUserName: str, db: AsyncIO
     except PyMongoError as e:
         raise  # Let the global handler catch this 
 
-async def add_user(user: UserCreate, db: AsyncIOMotorDatabase)-> User:
+async def add_user(user: UserCreate, db: AsyncIOMotorDatabase)->User:
     try: 
         # Check if user already exists
         existing_user = await db["users"].find_one({"username": user.username})
@@ -37,7 +37,7 @@ async def add_user(user: UserCreate, db: AsyncIOMotorDatabase)-> User:
         user_dict = user.model_dump(by_alias=True)
         user_dict["createdAt"] = datetime.now()
         result = await db["users"].insert_one(user_dict)
-        created_user = await db["users"].find_one({"_id": result.inserted_id})
+        created_user = await db["users"].find_one({"id": result.inserted_id})
         if created_user is None:
             raise HTTPException(status_code=500, detail="User created but could not be retrieved")
         

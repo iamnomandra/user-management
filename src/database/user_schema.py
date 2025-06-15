@@ -35,7 +35,7 @@ class User(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
         
-class UserCreate(User):  
+class UserCreate(BaseModel):  
     username:str
     email:str 
     password:str   
@@ -53,6 +53,6 @@ class UserUpdate(BaseModel):
     email:str 
     password:str   
     roles: List[Role] 
-    bool: str 
+    active: bool 
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 

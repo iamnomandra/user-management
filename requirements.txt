@@ -8,3 +8,4 @@ pymongo
 python-jose
 sqlalchemy
 jinja2
+pytest
