@@ -10,16 +10,13 @@ settings = Settings()
 favicon_path = "static/images/favicon.ico" 
 app_url =f"http://{settings.HOST}:{settings.APP_PORT}" 
 appname = settings.APP_NAME
-custom_html = '<div class="scheme-containerr"><section class="schemes wrapper block col-12"><div class="auth-wrapper"><button class="btn authorize"><span>Authorize Google</span><svg width="20" height="20"><use href="#unlocked" xlink:href="#unlocked"></use></svg></button></div></section></div>'
 
 def add(app: FastAPI):
     @app.get("/api/gateway", include_in_schema=False)
     def custom_swagger_ui_html(): 
         return get_swagger_ui_html(openapi_url= app.openapi_url,  # type: ignore
         title=f"{appname}: API", 
-        swagger_favicon_url = favicon_path,
-        swagger_js_url = "/static/js/swagger-ui-bundle.js",
-        swagger_css_url = "/static/css/swagger-ui.css",)
+        swagger_favicon_url = favicon_path)
         
     def custom_openapi():
         try: 
